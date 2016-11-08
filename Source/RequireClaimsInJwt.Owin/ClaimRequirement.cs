@@ -11,7 +11,7 @@ namespace RequireClaimsInJwt.Owin
             Verify = requirement;
             ErrorMsg = errorMsgIfRequirementReturnsFalse;
         }
-        public Func<IEnumerable<Claim>, bool> Verify { get; }
-        public string ErrorMsg { get; }
+        public Func<IEnumerable<Claim>, bool> Verify { get; private set; }
+        public string ErrorMsg { get; private set; }
     }
 }

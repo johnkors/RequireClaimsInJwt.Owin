@@ -63,7 +63,7 @@ namespace RequireClaimsInJwt.Owin
             {
                 strBuilder.Append(error);
             }
-            return $"Bearer error=\"{strBuilder}\"";
+            return string.Format("Bearer error=\"{0}\"", strBuilder);
         }
 
         private static bool IsBearerTokenRequest(IDictionary<string, object> env)
