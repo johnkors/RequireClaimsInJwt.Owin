@@ -20,3 +20,5 @@ Enables APIs to set requirements on the contents of JWTs; for instance that they
 	api.UseRequireClaimsInJwt(reqOpts);
 	
 ```
+
+If any requirement fails, it will return a 403 response with the specified error message in a header.
