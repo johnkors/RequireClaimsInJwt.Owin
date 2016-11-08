@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="ClaimRequirement.cs" />
     <Compile Include="IAppBuilderExtensions.cs" />
+    <Compile Include="JwtSecurityTokenExtensions.cs" />
+    <Compile Include="OwinEnvironmentExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequireClaimsInJwtMiddleware.cs" />
     <Compile Include="RequireClaimsInJwtOptions.cs" />
