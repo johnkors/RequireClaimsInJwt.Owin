@@ -6,7 +6,6 @@ namespace RequireClaimsInJwt.Owin
 {
     internal static class OwinEnvironmentExtensions
     {
-
         internal static bool IsJwtBearerTokenRequest(this IDictionary<string, object> env)
         {
             var headers = GetHeaders(env);
