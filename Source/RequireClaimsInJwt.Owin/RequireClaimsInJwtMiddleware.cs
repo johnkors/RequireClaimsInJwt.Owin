@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.Linq;
-using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AppFunc = System.Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
 
 namespace RequireClaimsInJwt.Owin
 {
-    public class RequireClaimsInJwt
+    public class RequireClaimsInJwtMiddleware
     {
         readonly AppFunc _next;
         private readonly RequireClaimsInJwtOptions _options;
@@ -19,7 +18,7 @@ namespace RequireClaimsInJwt.Owin
         /// </summary>
         /// <param name="next">The next middleware.</param>
         /// <param name="options">The options.</param>
-        public RequireClaimsInJwt(AppFunc next, RequireClaimsInJwtOptions options)
+        public RequireClaimsInJwtMiddleware(AppFunc next, RequireClaimsInJwtOptions options)
         {
             _next = next;
             _options = options;
@@ -113,27 +112,5 @@ namespace RequireClaimsInJwt.Owin
             }
             return errors;
         }
-    }
-
-    public class RequireClaimsInJwtOptions
-    {
-        public RequireClaimsInJwtOptions()
-        {
-            var containsClaimsRequirement = new ClaimRequirement(c => c.Any(), "No claims present in JWT!");
-            Requirements = new List<ClaimRequirement> { containsClaimsRequirement };
-        }
-
-        public List<ClaimRequirement> Requirements { get; set; }
-    }
-
-    public class ClaimRequirement
-    {
-        public ClaimRequirement(Func<IEnumerable<Claim>, bool> requirement, string errorMsgIfRequirementReturnsFalse)
-        {
-            Verify = requirement;
-            ErrorMsg = errorMsgIfRequirementReturnsFalse;
-        }
-        public Func<IEnumerable<Claim>, bool> Verify { get; }
-        public string ErrorMsg { get; }
     }
 }
