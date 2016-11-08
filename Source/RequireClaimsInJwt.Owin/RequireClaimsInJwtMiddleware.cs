@@ -33,13 +33,15 @@ namespace RequireClaimsInJwt.Owin
             var bearerToken = env.GetBearerToken();
             var token = new JwtSecurityToken(bearerToken);
             var errors = token.CheckRequirements(_options.Requirements);
-            if (!errors.Any())
+
+            if (errors.Any())
+            {
+                env.RespondForbiddenWith(errors);
+            }
+            else
             {
                 await _next(env);
-                return;
             }
-
-            env.RespondForbiddenWith(errors);
         }
     }
 }
