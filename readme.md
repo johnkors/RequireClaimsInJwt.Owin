@@ -9,6 +9,7 @@ Enables APIs to set requirements on the contents of JWTs; for instance that they
 
 # Usage:
 
+Require all incoming JWTs to have at least one claim named "Banana":
 ```
 public void Configuration(IAppBuilder app)
 {	
@@ -19,11 +20,9 @@ public void Configuration(IAppBuilder app)
 	var reqOpts = new RequireClaimsInJwtOptions();
 	reqOpts.AddRequirement(bananaRequirement);
 	
-	app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions())
+	
 	app.UseRequireClaimsInJwt(reqOpts);
-	var config = new HttpConfiguration();
-    config.Filters.Add(new AuthorizeAttribute());	
-	app.UseWebApi(config)
+	
 }	
 ```
 
