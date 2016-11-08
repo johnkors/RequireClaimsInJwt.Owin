@@ -1,3 +1,6 @@
+[![NuGet](https://img.shields.io/nuget/v/RequireClaimsInJwt.Owin.svg)](https://img.shields.io/nuget/v/RequireClaimsInJwt.Owin.svg)
+
+
 # RequireClaimsInJwt.Owin 
 .. a JWT requirement OWIN Middleware.
 
