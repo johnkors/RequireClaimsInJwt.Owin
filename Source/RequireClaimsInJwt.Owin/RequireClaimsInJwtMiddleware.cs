@@ -10,12 +10,7 @@ namespace RequireClaimsInJwt.Owin
     {
         readonly AppFunc _next;
         private readonly RequireClaimsInJwtOptions _options;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RequireClaimsInJwt"/> class.
-        /// </summary>
-        /// <param name="next">The next middleware.</param>
-        /// <param name="options">The options.</param>
+  
         public RequireClaimsInJwtMiddleware(AppFunc next, RequireClaimsInJwtOptions options)
         {
             _next = next;
