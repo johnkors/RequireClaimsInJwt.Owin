@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,7 +32,7 @@ namespace RequireClaimsInJwt.Owin
 
             var bearerToken = env.GetBearerToken();
 
-            var errors = CheckRequirements(bearerToken).ToList();
+            var errors = CheckRequirements(bearerToken);
             if (!errors.Any())
             {
                 await _next(env);
