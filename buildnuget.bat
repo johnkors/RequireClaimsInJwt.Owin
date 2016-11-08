@@ -1,4 +1,3 @@
-set projpath=source\RequireClaimsInJwt.Owin\packages.config
 set csproj=source\RequireClaimsInJwt.Owin\RequireClaimsInJwt.Owin.csproj
 set version=1.0.2
 set msbuildexe=
