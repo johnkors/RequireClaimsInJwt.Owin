@@ -1,23 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Owin;
+using System.IdentityModel.Tokens;
 
 namespace RequireClaimsInJwt.Owin
 {
-    public static class IAppBuilderExtensions
-    {
-        public static IAppBuilder UseRequireClaimsInJwt(this IAppBuilder appBuilder, RequireClaimsInJwtOptions opts)
-        {
-            appBuilder.Use<RequireClaimsInJwtMiddleware>(opts);
-            return appBuilder;
-        }
-    }
-
     internal static class OwinEnvironmentExtensions
     {
 
-        internal static bool IsBearerTokenRequest(this IDictionary<string, object> env)
+        internal static bool IsJwtBearerTokenRequest(this IDictionary<string, object> env)
         {
             var headers = GetHeaders(env);
 
@@ -28,7 +18,10 @@ namespace RequireClaimsInJwt.Owin
                 var isBearer = value.StartsWith("Bearer", StringComparison.CurrentCultureIgnoreCase);
                 var tokenString = value.Split(' ')[1];
                 var hasToken = value.Split(' ').Length > 1 && !string.IsNullOrEmpty(tokenString);
-                return isBearer && hasToken;
+                if (isBearer && hasToken)
+                {
+                    return IsJwt(tokenString);
+                }
             }
             return false;
         }
@@ -53,6 +46,19 @@ namespace RequireClaimsInJwt.Owin
         private static IDictionary<string, string[]> GetHeaders(this IDictionary<string, object> env)
         {
             return env["owin.RequestHeaders"] as IDictionary<string, string[]>;
+        }
+
+        private static bool IsJwt(string tokenString)
+        {
+            try
+            {
+                var jwtToken = new JwtSecurityToken(tokenString);
+                return true;
+            }
+            catch (ArgumentException ae)
+            {
+                return false;
+            }
         }
     }
 }
