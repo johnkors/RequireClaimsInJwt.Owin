@@ -18,11 +18,9 @@ public void Configuration(IAppBuilder app)
 	var bananaRequirement = new ClaimRequirement(bananaFunc, errorMsgWhenNotFound);
 	
 	var reqOpts = new RequireClaimsInJwtOptions();
-	reqOpts.AddRequirement(bananaRequirement);
+	reqOpts.AddRequirement(bananaRequirement);	
 	
-	
-	app.UseRequireClaimsInJwt(reqOpts);
-	
+	app.UseRequireClaimsInJwt(reqOpts);	
 }	
 ```
 
