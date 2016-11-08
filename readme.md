@@ -13,7 +13,7 @@ Require all incoming JWTs to have at least one claim named "Banana":
 ```
 public void Configuration(IAppBuilder app)
 {	
-	Func<IEnumerable<Claim>, bool> bananaFunc = c => c.Any(c => c.Type == "Banana");
+	Func<IEnumerable<Claim>, bool> bananaFunc = all => all.Any(c => c.Type == "Banana");
 	var errorMsgWhenNotFound = "No banana claim!";
 	var bananaRequirement = new ClaimRequirement(bananaFunc, errorMsgWhenNotFound);
 	
