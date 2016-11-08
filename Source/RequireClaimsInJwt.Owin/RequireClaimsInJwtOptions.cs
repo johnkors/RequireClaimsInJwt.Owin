@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace RequireClaimsInJwt.Owin
 {
@@ -7,10 +6,14 @@ namespace RequireClaimsInJwt.Owin
     {
         public RequireClaimsInJwtOptions()
         {
-            var containsClaimsRequirement = new ClaimRequirement(c => c.Any(), "No claims present in JWT!");
-            Requirements = new List<ClaimRequirement> { containsClaimsRequirement };
+            Requirements = new List<ClaimRequirement> ();
         }
 
-        public List<ClaimRequirement> Requirements { get; set; }
+        internal List<ClaimRequirement> Requirements { get; set; }
+
+        public void AddRequirement(ClaimRequirement req)
+        {
+            Requirements.Add(req);
+        }
     }
 }
