@@ -31,8 +31,8 @@ namespace RequireClaimsInJwt.Owin
             }
 
             var bearerToken = env.GetBearerToken();
-
-            var errors = CheckRequirements(bearerToken);
+            var token = new JwtSecurityToken(bearerToken);
+            var errors = token.CheckRequirements(_options.Requirements);
             if (!errors.Any())
             {
                 await _next(env);
@@ -40,23 +40,6 @@ namespace RequireClaimsInJwt.Owin
             }
 
             env.RespondForbiddenWith(errors);
-        }
-
-        private IEnumerable<string> CheckRequirements(string encodedTokenString)
-        {
-            var errors = new List<string>();
-
-            var token = new JwtSecurityToken(encodedTokenString);
-            foreach (var requirement in _options.Requirements)
-            {
-                var fulfillsRequirement = requirement.Verify(token.Claims);
-                if (!fulfillsRequirement)
-                {
-                    errors.Add(requirement.ErrorMsg);
-                }
-            }
-
-            return errors;
         }
     }
 }
