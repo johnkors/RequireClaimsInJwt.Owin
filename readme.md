@@ -14,5 +14,5 @@ Enables APIs to set requirements on the contents of JWTs; for instance that they
 	var reqOpts = new RequireClaimsInJwtOptions();
 	reqOpts.AddRequirement(bananaRequirement);
 	
-	api.UseRequireClaimsInJwt>(reqOpts);
+	api.UseRequireClaimsInJwt(reqOpts);
 ```
