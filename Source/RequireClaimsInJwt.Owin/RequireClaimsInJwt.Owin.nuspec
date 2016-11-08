@@ -6,9 +6,9 @@
     <title>RequireClaimsInJwt.Owin</title>
     <authors>John Korsnes</authors>
     <owners>John Korsnes</owners>
-    <projectUrl>https://github.com/johnkors/RequireClaimInBearerTokenMiddleware</projectUrl>    
+    <projectUrl>https://github.com/johnkors/RequireClaimsInJwt.Owin</projectUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>    
-    <description>Access token requirement validation middleware for JWT.</description>
+    <description>Access token requirement validation middleware for JWTs.</description>
     <copyright>Copyright 2016</copyright>
     <tags>IdentityServer OpenID Connect OpenIDConnect OAuth2 OWIN Katana WebApi Claims Identity JWT token</tags>    
     <frameworkAssemblies>      
