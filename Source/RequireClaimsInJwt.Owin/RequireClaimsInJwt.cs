@@ -50,11 +50,6 @@ namespace RequireClaimsInJwt.Owin
 
             env["owin.ResponseStatusCode"] = 403;
             var responseHeaders = env["owin.ResponseHeaders"] as IDictionary<string, string[]>;
-
-            if (responseHeaders == null)
-            {
-                responseHeaders = new Dictionary<string, string[]>();
-            }
             responseHeaders.Add("WWW-Authenticate", new[] { GetBearerErrorMsg(errors) });
             responseHeaders.Add("jwt-errors", new[] { string.Join(",", errors) });
 
@@ -138,7 +133,7 @@ namespace RequireClaimsInJwt.Owin
             Verify = requirement;
             ErrorMsg = errorMsgIfRequirementReturnsFalse;
         }
-        public Func<IEnumerable<Claim>, bool> Verify { get; private set; }
-        public string ErrorMsg { get; private set; }
+        public Func<IEnumerable<Claim>, bool> Verify { get; }
+        public string ErrorMsg { get; }
     }
 }
