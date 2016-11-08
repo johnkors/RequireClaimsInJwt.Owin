@@ -7,6 +7,9 @@ Enables APIs to set requirements on the contents of JWTs; for instance that they
 
 ```
 	var reqOpts = new RequireClaimsInJwtOptions();
-	reqOpts.Requirements.Add(new ClaimRequirement(allClaims => allClaims.Any(c => c.Type == "Banana"),  "No banana claim!"));
+	Func<IEnumerable<Claim>, bool> bananaFUnc = c => c.Any(c => c.Type == "Banana");
+	var errorMsgWhenNotFound = "No banana claim!";
+	var bananaRequirement = new ClaimRequirement(bananaFUnc, errorMsgWhenNotFound);
+	reqOpts.Requirements.Add(bananaRequirement);
 	api.UseRequireClaimsInJwt>(reqOpts);
 ```
