@@ -10,15 +10,21 @@ Enables APIs to set requirements on the contents of JWTs; for instance that they
 # Usage:
 
 ```
-	
+public void Configuration(IAppBuilder app)
+{	
 	Func<IEnumerable<Claim>, bool> bananaFunc = c => c.Any(c => c.Type == "Banana");
 	var errorMsgWhenNotFound = "No banana claim!";
 	var bananaRequirement = new ClaimRequirement(bananaFunc, errorMsgWhenNotFound);
 	
 	var reqOpts = new RequireClaimsInJwtOptions();
 	reqOpts.AddRequirement(bananaRequirement);
-	api.UseRequireClaimsInJwt(reqOpts);
 	
+	app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions())
+	app.UseRequireClaimsInJwt(reqOpts);
+	var config = new HttpConfiguration();
+    config.Filters.Add(new AuthorizeAttribute());	
+	app.UseWebApi(config)
+}	
 ```
 
 If any requirement fails, it will return a 403 response with the specified error message in a header.
