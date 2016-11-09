@@ -1,1 +1,1 @@
-nuget push dist\RequireClaimsInJwt.Owin.1.1.0.nupkg -Source nuget.org
+nuget push dist\RequireClaimsInJwt.Owin.1.2.0.nupkg -Source nuget.org

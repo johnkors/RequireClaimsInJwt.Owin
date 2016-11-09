@@ -1,5 +1,5 @@
 set csproj=source\RequireClaimsInJwt.Owin\RequireClaimsInJwt.Owin.csproj
-set version=1.1.0
+set version=1.2.0
 set msbuildexe=
 for /D %%D in (%SYSTEMROOT%\Microsoft.NET\Framework\v4*) do set msbuildexe=%%D\MSBuild.exe
 

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Security.Claims;
-using System.Web.Http;
 using Microsoft.Owin.Testing;
-using Owin;
 using Xunit;
 
 namespace RequireClaimsInJwt.Owin.Tests
@@ -14,29 +9,41 @@ namespace RequireClaimsInJwt.Owin.Tests
     {
         private const string JWTWithSubClaim = @"eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpc3MiOiJodHRwczovL3NvbWVpc3N1ZXIuY29tIiwic3ViIjoidGhlLXVzZXItaWQiLCJuYmYiOjE0Nzg2OTczNjQsImV4cCI6MTQ3ODcwMDk2NCwiaWF0IjoxNDc4Njk3MzY0fQ.anything";
         private const string JWTWithoutSubClaim = @"eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJpc3MiOiJodHRwczovL3NvbWVpc3N1ZXIuY29tIiwibmJmIjoxNDc4Njk3NTAwLCJleHAiOjE0Nzg3MDExMDAsImlhdCI6MTQ3ODY5NzUwMH0.anything";
-        
+
+        [Fact]
+        public async void IgnoresRequestsMissingAuthorizationHeader()
+        {
+            using (var server = TestServer.Create<TestOwinStartup>())
+            {
+                var request = server.CreateRequest("/"); // .AddHeader("Authorization", $"Bearer {JWTWithoutSubClaim}");
+                var response = await request.GetAsync();
+
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            }
+        }
+
         [Theory]
         [InlineData("Bearer")]
         [InlineData("Bearer ")]
         [InlineData("Bearer  ")]
         [InlineData("Bearer this.isinvalid.jwt")]
-        public async void DoesNothingForInvalidJwts(string bearerTokenValue)
+        public async void IgnoresBearerTokenRequestsHavingInvalidJwts(string bearerTokenValue)
         {
-            using (var server = TestServer.Create<StartupJwtMustHaveSub>())
+            using (var server = TestServer.Create<TestOwinStartup>())
             {
-                var request = server.CreateRequest("/").AddHeader("Authorization", $"{bearerTokenValue}");
+                var request = server.CreateRequest("/").AddHeader("Authorization", string.Format("{0}",bearerTokenValue));
                 var response = await request.GetAsync();
 
-                Assert.NotEqual(HttpStatusCode.InternalServerError, response.StatusCode);
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             }
         }
 
         [Fact]
-        public async void ComplainsAboutMissingSubClaim()
+        public async void ComplainsAboutMissingSubClaimWhenSubClaimIsMissing()
         {
-            using (var server = TestServer.Create<StartupJwtMustHaveSub>())
+            using (var server = TestServer.Create<TestOwinStartup>())
             {
-                var request = server.CreateRequest("/").AddHeader("Authorization", $"Bearer {JWTWithoutSubClaim}");
+                var request = server.CreateRequest("/").AddHeader("Authorization", string.Format("Bearer {0}", JWTWithoutSubClaim));
                 var response = await request.GetAsync();
 
                 Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
@@ -48,34 +55,15 @@ namespace RequireClaimsInJwt.Owin.Tests
         }
 
         [Fact]
-        public async void DoesNotComplainsAboutMissingSubClaim()
+        public async void DoesNotComplainsAboutMissingSubClaimWhenSubClaimExists()
         {
-            using (var server = TestServer.Create<StartupJwtMustHaveSub>())
+            using (var server = TestServer.Create<TestOwinStartup>())
             {
-                var request = server.CreateRequest("/").AddHeader("Authorization", $"Bearer {JWTWithSubClaim}");
+                var request = server.CreateRequest("/").AddHeader("Authorization", string.Format("Bearer {0}", JWTWithSubClaim));
                 var response = await request.GetAsync();
 
                 Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             }
-        }
-
-
-    }
-
-
-    public class StartupJwtMustHaveSub
-    {public void Configuration(IAppBuilder app)
-        {
-            var opts = new RequireClaimsInJwtOptions();
-
-            Func<IEnumerable<Claim>, bool> mustContainAtLeastOneBanana = cl => cl.Any(c => c.Type == "sub");
-            var claimRequirement = new ClaimRequirement(mustContainAtLeastOneBanana, "No sub claim!");
-            opts.AddRequirement(claimRequirement);
-            app.UseRequireClaimsInJwt(opts);
-
-            var testConfiguration = new HttpConfiguration();
-            testConfiguration.MapHttpAttributeRoutes();
-            app.UseWebApi(testConfiguration);
         }
     }
 }
