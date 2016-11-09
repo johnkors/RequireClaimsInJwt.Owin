@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequireClaimsInJwt.Owin", "RequireClaimsInJwt.Owin\RequireClaimsInJwt.Owin.csproj", "{8AD8F4C1-A868-4FCF-BD6C-E03C14BF86B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequireClaimsInJwt.Owin.Tests", "RequireClaimsInJwt.Owin.Tests\RequireClaimsInJwt.Owin.Tests.csproj", "{B3FF9929-8CC6-4D70-8DF2-C6A762FC5A44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8AD8F4C1-A868-4FCF-BD6C-E03C14BF86B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AD8F4C1-A868-4FCF-BD6C-E03C14BF86B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AD8F4C1-A868-4FCF-BD6C-E03C14BF86B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3FF9929-8CC6-4D70-8DF2-C6A762FC5A44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3FF9929-8CC6-4D70-8DF2-C6A762FC5A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3FF9929-8CC6-4D70-8DF2-C6A762FC5A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3FF9929-8CC6-4D70-8DF2-C6A762FC5A44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

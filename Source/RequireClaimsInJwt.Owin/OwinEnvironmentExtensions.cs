@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
+using Microsoft.Owin;
 
 namespace RequireClaimsInJwt.Owin
 {
@@ -15,11 +16,10 @@ namespace RequireClaimsInJwt.Owin
             {
                 var value = headers["Authorization"][0];
                 var isBearer = value.StartsWith("Bearer", StringComparison.CurrentCultureIgnoreCase);
-                var tokenString = value.Split(' ')[1];
-                var hasToken = value.Split(' ').Length > 1 && !string.IsNullOrEmpty(tokenString);
+                var hasToken = value.Split(' ').Length > 1 && !string.IsNullOrEmpty(value.Split(' ')[1]);
                 if (isBearer && hasToken)
                 {
-                    return IsJwt(tokenString);
+                    return IsJwt(value.Split(' ')[1]);
                 }
             }
             return false;
@@ -40,6 +40,7 @@ namespace RequireClaimsInJwt.Owin
 
             env["owin.ResponseReasonPhrase"] = "Unsatisfactory JWT";
             env["owin.ResponseHeaders"] = responseHeaders;
+            var ctx = new OwinContext(env);
         }
 
         private static IDictionary<string, string[]> GetHeaders(this IDictionary<string, object> env)
